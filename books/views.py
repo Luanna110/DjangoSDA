@@ -8,7 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 def get_hello(request: WSGIRequest) -> HttpResponse:
-    return HttpResponse("Hello World!")
+    hello = "Hello World!"
+    return render(request,template_name="hello_world.html",context={"hello_var":hello})
 
 # 12. Utwórz funkcję zwracającą listę stringów. Stringi niech będą losowym UUID dodawanym do listy. Lista niech posiada 10 elementów.
 #
