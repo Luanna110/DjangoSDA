@@ -43,17 +43,17 @@ def get_arguments_from_query(request: WSGIRequest) -> HttpResponse:
 
 @csrf_exempt
 def check_http_query_type(request: WSGIRequest)-> HttpResponse:
-    query_type = "Unknown"
-    if request.method == "GET":
-        query_type="to jest GET"
-    elif request.method == "POST":
-        query_type = "to jest POST"
-    elif request.method == "PUT":
-        query_type = "to jest PUT"
-    elif request.method == "DELETE":
-        query_type = "to jest DELETE"
+    # query_type = "Unknown"
+    # if request.method == "GET":
+    #     query_type="to jest GET"
+    # elif request.method == "POST":
+    #     query_type = "to jest POST"
+    # elif request.method == "PUT":
+    #     query_type = "to jest PUT"
+    # elif request.method == "DELETE":
+    #     query_type = "to jest DELETE"
 
-    return HttpResponse(query_type)
+    return render(request, template_name="methods.html", context={})
 #21 funkcja zwracajaca informacje o headerach
 
 def get_headers(request: WSGIRequest)-> JsonResponse:
