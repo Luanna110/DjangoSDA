@@ -6,9 +6,9 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 
-from books.models import BookAuthor, Category
+from books.models import BookAuthor, Category, Book
 
 
 class AuthorListBaseView(View):
@@ -23,6 +23,13 @@ class AuthorListBaseView(View):
 class CategoryListBaseTemplateView(TemplateView):
     template_name = "category_list.html"
     extra_context = {"categories":Category.objects.all()} # type: ignore
+
+class BookListView(ListView):
+    template_name = "book_list.html"
+    model = Book
+    paginate_by = 10
+
+
 
 
 
