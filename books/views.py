@@ -9,7 +9,7 @@ from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView
 
-from books.forms import CategoryForm, AuthorForm
+from books.forms import CategoryForm, AuthorForm, BookForm
 from books.models import BookAuthor, Category, Book
 import logging
 
@@ -72,8 +72,13 @@ class AuthorUpdateView(UpdateView):
     def get_object(self, **kwargs):
         return get_object_or_404(BookAuthor, id=self.kwargs.get("pk"))
 
+class BookCreateView(CreateView):
+    template_name = "book_form.html"
+    form_class = BookForm
+    success_url = reverse_lazy("book_list")
 
-
+    # def get_success_url(self):
+    #     return reverse_lazy("book_list")
 
 
 
