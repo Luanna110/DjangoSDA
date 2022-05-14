@@ -19,7 +19,8 @@ from books.views import get_hello
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',get_hello),
-    path('books/', include('books.urls')) #przekierowuje do endpointow w books/url.py
+    path('',get_hello, name='home'),
+    path('books/', include('books.urls')), #przekierowuje do endpointow w books/url.py
+    path('users/', include('users.urls')) #przekierowuje do endpointow w books/url.py
 
 ]
