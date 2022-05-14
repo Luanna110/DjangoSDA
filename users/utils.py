@@ -22,5 +22,12 @@ def hashed_password_with_salt(password: str) -> str:
     combined_salt_and_password = ''.join([hashed_password, hashed_salt])
     return combined_salt_and_password
 
+def verify_password_with_salt(password: str, password_from_db: str) -> bool:
+    hashed_salt = password_from_db[-64:]
+    new_password = password + hashed_salt
+    password_to_check = hashlib.sha256(new_password.encode('ascii')).hexdigest()
+
+    combined_salt_and_password = ''.join([password_to_check, hashed_salt])
+    return combined_salt_and_password == password_from_db
 
 
