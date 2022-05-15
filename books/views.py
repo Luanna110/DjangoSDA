@@ -1,5 +1,6 @@
 from uuid import uuid4
 
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import BadRequest, PermissionDenied
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
@@ -101,15 +102,15 @@ class BookDeleteView(DeleteView):
 
 
 
-
+@login_required
 def get_hello(request: WSGIRequest) -> HttpResponse:
     user: User = request.user # type: ignore
     # password = None if user.is_anonymous else user.password
     # email = None if user.is_anonymous else user.email
     # date_joined = None if user.is_anonymous else user.date_joined
-    if not user.is_authenticated:
- #       raise PermissionDenied()
-        return HttpResponseRedirect(reverse('login'))
+ #    if not user.is_authenticated:
+ # #       raise PermissionDenied()
+ #        return HttpResponseRedirect(reverse('login'))
 
     is_auth: bool = user.is_authenticated
     hello = f"Hello {user.username}. Your password: {user.password}, e-mail: {user.email} and join date: {user.date_joined}!"
