@@ -1,6 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.contrib.auth.views import LoginView
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView
 
@@ -18,5 +19,16 @@ class UserLoginView(LoginView):
 class UserListView(LoginRequiredMixin, ListView):
     template_name = "user_list.html"
     model = User
+
+def list_of_users(request):
+    users = User.objects.all()
+    users_as_list = []
+    for user in users:
+        users_as_list.append(user)
+    my_data = {
+        "users_list": users_as_list
+    }
+    return render(request,template_name= "users_list.html" ,context=my_data)
+
 
 
