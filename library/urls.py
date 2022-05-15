@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from books.views import get_hello
 
+from books.models import Book
+from books.views import get_hello
+from django.contrib import admin
+#
+admin.site.register(Book)
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',get_hello, name='home'),
