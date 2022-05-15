@@ -1,13 +1,14 @@
 from uuid import uuid4
 
-from django.core.exceptions import BadRequest
+from django.core.exceptions import BadRequest, PermissionDenied
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.models import User
 
 from books.forms import CategoryForm, AuthorForm, BookForm
 from books.models import BookAuthor, Category, Book
@@ -102,8 +103,17 @@ class BookDeleteView(DeleteView):
 
 
 def get_hello(request: WSGIRequest) -> HttpResponse:
-    hello = "Hello World!"
-    return render(request,template_name="hello_world.html",context={"hello_var":hello})
+    user: User = request.user # type: ignore
+    # password = None if user.is_anonymous else user.password
+    # email = None if user.is_anonymous else user.email
+    # date_joined = None if user.is_anonymous else user.date_joined
+    if not user.is_authenticated:
+ #       raise PermissionDenied()
+        return HttpResponseRedirect(reverse('login'))
+
+    is_auth: bool = user.is_authenticated
+    hello = f"Hello {user.username}. Your password: {user.password}, e-mail: {user.email} and join date: {user.date_joined}!"
+    return render(request,template_name="hello_world.html",context={"hello_var":hello, "is_auth":is_auth})
 
 # 12. Utwórz funkcję zwracającą listę stringów. Stringi niech będą losowym UUID dodawanym do listy. Lista niech posiada 10 elementów.
 #
